@@ -16,7 +16,7 @@ class Joke extends Component {
   }
 
   handleDelete() {
-    this.props.removeJokeComingFromList(this.props.id);
+    this.props.removeJokeComingFromList(this.props.joke.id);
   }
 
   render() {

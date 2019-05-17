@@ -45,7 +45,6 @@ class JokeList extends Component {
         <JokeForm addJokeComingFromList={this.addJoke} />
         {this.state.jokes.map(joke => (
           <Joke
-            id={joke.id}
             joke={joke}
             key={joke.id}
             removeJokeComingFromList={this.removeJoke}
