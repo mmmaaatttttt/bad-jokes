@@ -17,10 +17,14 @@ class Joke extends Component {
   render() {
     const { setup, punchline } = this.props.joke;
     const { punchlineVisible } = this.state;
+    let punchlineArea = <p className="prompt">Click to reveal punchline!</p>;
+    if (punchlineVisible) {
+      punchlineArea = <p>{punchline}</p>
+    }  
     return (
       <div className="Joke" onClick={this.togglePunchline}>
         <h3>{setup}</h3>
-        <p className={!punchlineVisible && "prompt"}>{punchlineVisible ? punchline : "Click to reveal punchline!"}</p>
+        {punchlineArea}
       </div>
     );
   }
