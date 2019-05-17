@@ -21,6 +21,7 @@ class JokeList extends Component {
       nextId: 3
     };
     this.addJoke = this.addJoke.bind(this);
+    this.removeJoke = this.removeJoke.bind(this);
   }
 
   addJoke(newJokeObj) {
@@ -31,13 +32,24 @@ class JokeList extends Component {
     }));
   }
 
+  removeJoke(idOfJokeToDelete) {
+    this.setState(st => ({
+      jokes: st.jokes.filter(joke => idOfJokeToDelete !== joke.id)
+    }));
+  }
+
   render() {
     return (
       <div>
         <h1>JokeList</h1>
         <JokeForm addJokeComingFromList={this.addJoke} />
         {this.state.jokes.map(joke => (
-          <Joke key={joke.id} joke={joke} />
+          <Joke
+            id={joke.id}
+            joke={joke}
+            key={joke.id}
+            removeJokeComingFromList={this.removeJoke}
+          />
         ))}
       </div>
     );

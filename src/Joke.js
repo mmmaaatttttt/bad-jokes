@@ -8,10 +8,15 @@ class Joke extends Component {
       punchlineVisible: false
     };
     this.togglePunchline = this.togglePunchline.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   togglePunchline() {
     this.setState(st => ({ punchlineVisible: !st.punchlineVisible }));
+  }
+
+  handleDelete() {
+    this.props.removeJokeComingFromList(this.props.id);
   }
 
   render() {
@@ -19,8 +24,13 @@ class Joke extends Component {
     const { punchlineVisible } = this.state;
     let punchlineArea = <p className="prompt">Click to reveal punchline!</p>;
     if (punchlineVisible) {
-      punchlineArea = <p>{punchline}</p>
-    }  
+      punchlineArea = (
+        <p>
+          {punchline}
+          <button onClick={this.handleDelete}>This joke is trash.</button>
+        </p>
+      );
+    }
     return (
       <div className="Joke" onClick={this.togglePunchline}>
         <h3>{setup}</h3>
