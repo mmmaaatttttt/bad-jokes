@@ -1,0 +1,20 @@
+.Joke {
+  background-color: cornflowerblue;
+  width: 70%;
+  margin: 2rem auto;
+  min-height: 8rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 0.5em;
+  color: white;
+}
+
+.Joke:hover {
+  cursor: pointer;
+}
+
+.prompt {
+  font-size: 0.8rem;
+  font-style: italic;
+}
