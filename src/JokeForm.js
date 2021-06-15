@@ -1,52 +1,49 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-class JokeForm extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      setup: "",
-      punchline: ""
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
+function JokeForm({ addJokeComingFromList }) {
+  const [setup, setSetup] = useState("");
+  const [punchline, setPunchline] = useState("");
 
-  handleChange(e) {
-    this.setState({ [e.target.name]: e.target.value });
-  }
+  /* Note: It's common to only have one handleChange
+  function, rather than a unique one per-input in the form.
+  But for simplicity, we'll use separate change handling 
+  functions here. */
+  const handleSetupChange = e => {
+    setSetup(e.target.value);
+  };
 
-  handleSubmit(e) {
+  const handlePunchlineChange = e => {
+    setPunchline(e.target.value);
+  };
+
+  const handleSubmit = e => {
     e.preventDefault();
-    this.props.addJokeComingFromList(this.state);
-    this.setState({
-      setup: "",
-      punchline: ""
-    });
-  }
+    addJokeComingFromList({ setup, punchline });
 
-  render() {
-    return (
-      <div>
-        <form onSubmit={this.handleSubmit}>
-          <label htmlFor="setup">Joke Setup:</label>
-          <input
-            name="setup"
-            id="setup"
-            value={this.state.setup}
-            onChange={this.handleChange}
-          />
-          <label htmlFor="punchline">Joke Punchline:</label>
-          <input
-            name="punchline"
-            id="punchline"
-            value={this.state.punchline}
-            onChange={this.handleChange}
-          />
-          <button>Add this amazing joke!</button>
-        </form>
-      </div>
-    );
-  }
+    // reset the form
+    setSetup("");
+    setPunchline("");
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="setup">Joke Setup:</label>
+      <input
+        name="setup"
+        id="setup"
+        value={setup}
+        onChange={handleSetupChange}
+      />
+      <label htmlFor="punchline">Joke Punchline:</label>
+      <input
+        name="punchline"
+        id="punchline"
+        value={punchline}
+        onChange={handlePunchlineChange}
+      />
+      <button>Add this amazing joke!</button>
+    </form>
+  );
 }
 
 export default JokeForm;

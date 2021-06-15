@@ -1,43 +1,35 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import "./Joke.css";
 
-class Joke extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      punchlineVisible: false
-    };
-    this.togglePunchline = this.togglePunchline.bind(this);
-    this.handleDelete = this.handleDelete.bind(this);
-  }
+function Joke({ joke, removeJokeComingFromList }) {
+  const [punchlineVisible, setPunchlineVisible] = useState(false);
 
-  togglePunchline() {
-    this.setState(st => ({ punchlineVisible: !st.punchlineVisible }));
-  }
+  const togglePunchline = () => {
+    setPunchlineVisible(vis => !vis);
+  };
 
-  handleDelete() {
-    this.props.removeJokeComingFromList(this.props.joke.id);
-  }
+  const handleDelete = () => {
+    removeJokeComingFromList(joke.id);
+  };
 
-  render() {
-    const { setup, punchline } = this.props.joke;
-    const { punchlineVisible } = this.state;
-    let punchlineArea = <p className="prompt">Click to reveal punchline!</p>;
-    if (punchlineVisible) {
-      punchlineArea = (
-        <p>
-          {punchline}
-          <button onClick={this.handleDelete}>This joke is trash.</button>
-        </p>
-      );
-    }
-    return (
-      <div className="Joke" onClick={this.togglePunchline}>
-        <h3>{setup}</h3>
-        {punchlineArea}
+  const { setup, punchline } = joke;
+  let punchlineArea = <p className="prompt">Click to reveal punchline!</p>;
+  if (punchlineVisible) {
+    punchlineArea = (
+      <div>
+        <p>{punchline}</p>
+        <button onClick={handleDelete}>
+          I never want to see this joke again!
+        </button>
       </div>
     );
   }
+  return (
+    <div className="Joke" onClick={togglePunchline}>
+      <h3>{setup}</h3>
+      {punchlineArea}
+    </div>
+  );
 }
 
 export default Joke;

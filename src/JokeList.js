@@ -1,58 +1,42 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import JokeForm from "./JokeForm";
 import Joke from "./Joke";
+import "./JokeList.css";
 
-class JokeList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      jokes: [
-        {
-          setup: "How do you get a tissue to dance?",
-          punchline: "Put a little boogie in it!",
-          id: 1
-        },
-        {
-          setup: "How does the ocean say goodbye?",
-          punchline: "It waves!",
-          id: 2
-        }
-      ],
-      nextId: 3
-    };
-    this.addJoke = this.addJoke.bind(this);
-    this.removeJoke = this.removeJoke.bind(this);
-  }
+function JokeList() {
+  const [jokes, setJokes] = useState([
+    {
+      setup: "How do you get a tissue to dance?",
+      punchline: "Put a little boogie in it!",
+      id: 1
+    },
+    {
+      setup: "How does the ocean say goodbye?",
+      punchline: "It waves!",
+      id: 2
+    }
+  ]);
+  const [nextId, setNextId] = useState(3);
 
-  addJoke(newJokeObj) {
-    const jokeWithId = { ...newJokeObj, id: this.state.nextId };
-    this.setState(st => ({
-      jokes: [jokeWithId, ...st.jokes],
-      nextId: st.nextId + 1
-    }));
-  }
+  const addJoke = newJokeObj => {
+    const jokeWithId = { ...newJokeObj, id: nextId };
+    setJokes(oldJokes => [jokeWithId, ...oldJokes]);
+    setNextId(oldId => oldId + 1);
+  };
 
-  removeJoke(idOfJokeToDelete) {
-    this.setState(st => ({
-      jokes: st.jokes.filter(joke => idOfJokeToDelete !== joke.id)
-    }));
-  }
+  const removeJoke = idOfJokeToDelete => {
+    setJokes(oldJokes => oldJokes.filter(joke => idOfJokeToDelete !== joke.id));
+  };
 
-  render() {
-    return (
-      <div>
-        <h1>JokeList</h1>
-        <JokeForm addJokeComingFromList={this.addJoke} />
-        {this.state.jokes.map(joke => (
-          <Joke
-            joke={joke}
-            key={joke.id}
-            removeJokeComingFromList={this.removeJoke}
-          />
-        ))}
-      </div>
-    );
-  }
+  return (
+    <div className="JokeList">
+      <h1>JokeList</h1>
+      <JokeForm addJokeComingFromList={addJoke} />
+      {jokes.map(joke => (
+        <Joke joke={joke} key={joke.id} removeJokeComingFromList={removeJoke} />
+      ))}
+    </div>
+  );
 }
 
 export default JokeList;
