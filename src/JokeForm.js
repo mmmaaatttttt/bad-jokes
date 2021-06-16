@@ -1,28 +1,21 @@
 import React, { useState } from "react";
 
 function JokeForm({ addJokeComingFromList }) {
-  const [setup, setSetup] = useState("");
-  const [punchline, setPunchline] = useState("");
+  const [formData, setFormData] = useState({ setup: "", punchline: "" });
 
-  /* Note: It's common to only have one handleChange
-  function, rather than a unique one per-input in the form.
-  But for simplicity, we'll use separate change handling 
-  functions here. */
-  const handleSetupChange = e => {
-    setSetup(e.target.value);
+  const handleChange = evt => {
+    setFormData(fd => ({
+      ...fd,
+      [evt.target.name]: evt.target.value
+    }));
   };
 
-  const handlePunchlineChange = e => {
-    setPunchline(e.target.value);
-  };
-
-  const handleSubmit = e => {
-    e.preventDefault();
-    addJokeComingFromList({ setup, punchline });
+  const handleSubmit = evt => {
+    evt.preventDefault();
+    addJokeComingFromList(formData);
 
     // reset the form
-    setSetup("");
-    setPunchline("");
+    setFormData({ setup: "", punchline: "" });
   };
 
   return (
@@ -31,15 +24,15 @@ function JokeForm({ addJokeComingFromList }) {
       <input
         name="setup"
         id="setup"
-        value={setup}
-        onChange={handleSetupChange}
+        value={formData.setup}
+        onChange={handleChange}
       />
       <label htmlFor="punchline">Joke Punchline:</label>
       <input
         name="punchline"
         id="punchline"
-        value={punchline}
-        onChange={handlePunchlineChange}
+        value={formData.punchline}
+        onChange={handleChange}
       />
       <button>Add this amazing joke!</button>
     </form>
